@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
+vector<int> v[100000];
+int vis[100000];
+int lev[100000];
+int k= 0;
+
+void bfs(int s, int x)
+{
+    vis[s] = 1;
+    lev[s] = 1;
+    queue<int> q;
+    q.push(s);
+    while(!q.empty())
+    {
+        int p = q.front();
+        q.pop();
+        for(int i=0; i<v[p].size(); i++)
+        {
+            if(!vis[v[p][i]])
+            {
+                lev[v[p][i]] = lev[p]+1;
+                vis[v[p][i]] = 1;
+                q.push(v[p][i]);
+                if(lev[v[p][i]] == x)
+                    k++;
+            }
+        }
+    }
+}
+int main()
+{
+    int n, a, b, x;
+    cin >> n;
+    for(int i=0; i<n-1; i++)
+    {
+        cin >> a >> b;
+        v[a].push_back(b);
+        v[b].push_back(a);
+    }
+    cin >> x;
+    bfs(1, x);
+    cout << k<<endl;
+    return 0;
+}
